@@ -1,3 +1,7 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/css/intlTelInput.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.9/js/intlTelInput.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.9/js/utils.js"></script>
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
@@ -28,22 +32,30 @@
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
+            <div class="mt-4">
+                <x-input-label for="phone" :value="__('Phone')" />
+                <x-text-input id="phone" class="block mt-1 w-full" type="tel" name="phone" :value="old('phone',$user->phone_number)" required autocomplete="phone" />
+                <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                <span id="valid-msg" class="hide"></span>
+                <span id="error-msg" class="hide"></span>
+            </div>
+
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-gray-800">
-                        {{ __('Your email address is unverified.') }}
+            <div>
+                <p class="text-sm mt-2 text-gray-800">
+                    {{ __('Your email address is unverified.') }}
 
-                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            {{ __('Click here to re-send the verification email.') }}
-                        </button>
-                    </p>
+                    <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        {{ __('Click here to re-send the verification email.') }}
+                    </button>
+                </p>
 
-                    @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600">
-                            {{ __('A new verification link has been sent to your email address.') }}
-                        </p>
-                    @endif
-                </div>
+                @if (session('status') === 'verification-link-sent')
+                <p class="mt-2 font-medium text-sm text-green-600">
+                    {{ __('A new verification link has been sent to your email address.') }}
+                </p>
+                @endif
+            </div>
             @endif
         </div>
 
@@ -51,14 +63,51 @@
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600"
-                >{{ __('Saved.') }}</p>
+            <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)" class="text-sm text-gray-600">{{ __('Saved.') }}</p>
             @endif
         </div>
     </form>
 </section>
+<!-- Script for phone number -->
+
+<script>
+    const input = document.querySelector("#phone");
+    const errorMsg = document.querySelector("#error-msg");
+    const validMsg = document.querySelector("#valid-msg");
+
+    // here, the index maps to the error code returned from getValidationError - see readme
+    const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+
+    // initialise plugin
+    const iti = window.intlTelInput(input, {
+        preferredCountries: ["ke", "us"],
+        separateDialCode: true,
+        utilsScript: "/intl-tel-input/js/utils.js?1684676252775"
+    });
+
+    const reset = () => {
+        input.classList.remove("error");
+        errorMsg.innerHTML = "";
+        errorMsg.classList.add("hide");
+        validMsg.classList.add("hide");
+    };
+
+    // on blur: validate
+    input.addEventListener('blur', () => {
+        reset();
+        if (input.value.trim()) {
+            if (iti.isValidNumber()) {
+                validMsg.classList.remove("hide");
+            } else {
+                input.classList.add("error");
+                const errorCode = iti.getValidationError();
+                errorMsg.innerHTML = errorMap[errorCode];
+                errorMsg.classList.remove("hide");
+            }
+        }
+    });
+
+    // on keyup / change flag: reset
+    input.addEventListener('change', reset);
+    input.addEventListener('keyup', reset);
+</script>

@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\Auth\AdminRegSupervisor;
+use App\Http\Controllers\Auth\DashboardRedirect;
+use App\Http\Controllers\Auth\ProviderController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\ImportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +22,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/auth/{provider}/redirect', [ProviderController::class, 'redirect']);
+Route::get('/auth/{provider}/callback', [ProviderController::class, 'callback']);
+
+Route::get('/dashboard', [DashboardRedirect::class, 'dashboards'])
+    ->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -28,4 +34,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::post('/import_parse', [ImportController::class, 'parseImport'])->name('import_parse');
+Route::post('/import_process', [ImportController::class, 'processImport'])->name('import_process');
+
+Route::get('/admin_reg_supp', [AdminRegSupervisor::class, 'index'])->name('SupervisorRegistration');
+require __DIR__ . '/auth.php';
