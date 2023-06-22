@@ -19,7 +19,7 @@ use App\Http\Controllers\Auth\ImportController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/register');
 });
 
 Route::get('/auth/{provider}/redirect', [ProviderController::class, 'redirect']);
