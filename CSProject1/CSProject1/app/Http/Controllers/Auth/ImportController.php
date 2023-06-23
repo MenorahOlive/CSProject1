@@ -10,6 +10,7 @@ use App\Imports\UsersImport;
 use App\Models\User;
 use App\Models\CsvData;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Hash;
 
 class ImportController extends Controller
 {
@@ -49,11 +50,20 @@ class ImportController extends Controller
             $user = new User();
             foreach (config('app.db_fields') as $index => $field) {
                 if ($data->csv_header) {
-                    $user->$field = $row[$request->fields[$field]];
-                    $user->role=1;
+                    if ($field != 'password') {
+                        $user->$field = $row[$request->fields[$field]];
+                    } else {
+                        $user->$field = Hash::make($row[$request->fields[$field]]);
+                    }
+                    $user->role = 1;
                 } else {
-                    $user->$field = $row[$request->fields[$index]];
-                    $user->role=1;
+                    if ($field != 'password') {
+                        $user->$field = $row[$request->fields[$index]];
+                    } else {
+                        $user->$field = Hash::make($row[$request->fields[$index]]);
+                    }
+
+                    $user->role = 1;
                 }
             }
             $user->save();

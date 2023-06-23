@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\ProviderController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ImportController;
+use App\Http\Controllers\SupervisorReg;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,4 +39,11 @@ Route::post('/import_parse', [ImportController::class, 'parseImport'])->name('im
 Route::post('/import_process', [ImportController::class, 'processImport'])->name('import_process');
 
 Route::get('/admin_reg_supp', [AdminRegSupervisor::class, 'index'])->name('SupervisorRegistration');
+
+Route::get('/fetch_form', function () {
+    return view('reg_sup');
+})->name('fetch_form');
+
+Route::post('/sup_reg', [SupervisorReg::class, 'store'])->name('sup_reg');
+
 require __DIR__ . '/auth.php';

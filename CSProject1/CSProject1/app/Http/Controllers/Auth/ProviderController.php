@@ -31,7 +31,6 @@ class ProviderController extends Controller
                     'provider_id' => $SocialUser->id,
                     'provider' => $provider,
                     'provider_token' => $SocialUser->token,
-                    'role' => 2,
                 ]);
             } else {
                 // Create new one

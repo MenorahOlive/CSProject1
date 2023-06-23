@@ -189,6 +189,7 @@ return [
     'db_fields' => [
         'name',
         'email',
-        'phone_number'
+        'phone_number',
+        'password',
     ]
 ];

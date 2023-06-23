@@ -1,5 +1,10 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+<x-app-layout>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/css/intlTelInput.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.9/js/intlTelInput.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.9/js/utils.js"></script>
+
+    <form method="POST" action="{{ route('sup_reg') }}" style="width: 40%; margin-left: 30%; margin-top: 5%">
         @csrf
 
         <!-- Name -->
@@ -26,46 +31,16 @@
             <input id="fullNumber" type="hidden" name="phone">
         </div>
 
-        <!-- Password -->
-        <div class="mt-2">
-            <x-input-label style="color:black;" for="password" :value="__('Password')" />
 
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-2">
-            <x-input-label style="color:black;" for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-2">
-            <a class=" text-sm text-blue-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+        <div class="flex items-center justify-center mt-4">
 
             <x-primary-button style="background-color:black;" class="ml-2">
                 {{ __('Register') }}
             </x-primary-button>
         </div>
-        <h2 class="mt-0" style="margin-left: 50%;">OR</h2>
-                   
-        <!-- Sign up with google -->
-        <div class="w-full flex justify-center mx-2 mt-2">
-            <a href="/auth/google/redirect" class="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2">
-                <svg class="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
-                    <path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
-                </svg>
-                Sign up with Google
-            </a>
-        </div>
 
-        <input type="hidden" name="role" value="2">
+
+        <input type="hidden" name="role" value="1">
 
     </form>
     <!-- Script for phone number -->
@@ -118,4 +93,4 @@
         input.addEventListener('change', reset);
         input.addEventListener('keyup', reset);
     </script>
-</x-guest-layout>
+</x-app-layout>

@@ -33,9 +33,12 @@
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             <div class="mt-4">
-                <x-input-label for="phone" :value="__('Phone')" />
-                <x-text-input id="phone" class="block mt-1 w-full" type="tel" name="phone" :value="old('phone',$user->phone_number)" required autocomplete="phone" />
+                <x-input-label for="phone1" :value="__('Current Phone Number')" />
+                <x-text-input id="phone1" class="block mt-1 w-full" type="tel"  :value="old('phone',$user->phone_number)"  autocomplete="phone" read-only />
+                <x-input-label for="phone" :value="__('Change Phone Number')" />
+                <x-text-input id="phone" class="block mt-1 w-full" type="tel" name="phone1"  required autocomplete="phone" />
                 <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                <input id="fullNumber" type="hidden" name="phone">
                 <span id="valid-msg" class="hide"></span>
                 <span id="error-msg" class="hide"></span>
             </div>
@@ -83,6 +86,13 @@
         preferredCountries: ["ke", "us"],
         separateDialCode: true,
         utilsScript: "/intl-tel-input/js/utils.js?1684676252775"
+    });
+
+    var iti1 = window.intlTelInputGlobals.getInstance(input);
+
+    input.addEventListener('input', function() {
+        var fullNumber = iti1.getNumber();
+        document.getElementById('fullNumber').value = fullNumber;
     });
 
     const reset = () => {
