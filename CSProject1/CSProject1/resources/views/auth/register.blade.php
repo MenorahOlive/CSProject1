@@ -44,17 +44,24 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
+        <div class="mt-2 justify-center">
+            <div class="col-md-6 justify-center">
+                {!! app('captcha')->display() !!}
+            </div>
+            <x-input-error :messages="$errors->get('g-recaptcha-response')" class="mt-2" />
+        </div>
+
         <div class="flex items-center justify-end mt-2">
             <a class=" text-sm text-blue-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
 
-            <x-primary-button style="background-color:black;" class="ml-2">
+            <x-primary-button style="background-color:black;" class="ml-2 justify-center">
                 {{ __('Register') }}
             </x-primary-button>
         </div>
         <h2 class="mt-0" style="margin-left: 50%;">OR</h2>
-                   
+
         <!-- Sign up with google -->
         <div class="w-full flex justify-center mx-2 mt-2">
             <a href="/auth/google/redirect" class="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2">

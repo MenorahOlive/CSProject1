@@ -7,7 +7,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\ImportController;
 use App\Http\Controllers\SupervisorReg;
-
+use App\Http\Controllers\SiteAuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,4 +46,6 @@ Route::get('/fetch_form', function () {
 
 Route::post('/sup_reg', [SupervisorReg::class, 'store'])->name('sup_reg');
 
+Route::get('site-register', [SiteAuthController::class, 'siteRegister']);
+Route::post('site-register', [SiteAuthController::class, 'siteRegisterPost']);
 require __DIR__ . '/auth.php';

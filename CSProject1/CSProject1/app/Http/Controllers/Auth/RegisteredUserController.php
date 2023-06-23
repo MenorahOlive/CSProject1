@@ -36,7 +36,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Password::min(8)->letters()->symbols()],    
             'phone' => ['required'],
-        
+            'g-recaptcha-response' => 'required|captcha',
         ]);
        
         $user = User::create([
@@ -45,6 +45,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'role'=> $request->role,
             'phone_number'=> $request->phone,
+            
         ]);
 
         event(new Registered($user));
