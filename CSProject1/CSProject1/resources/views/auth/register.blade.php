@@ -18,7 +18,10 @@
 
         <!-- Password -->
         <div class="mt-4">
+        
             <x-input-label style="color:black;" for="password" :value="__('Password')" />
+            
+            
 
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
@@ -40,6 +43,12 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
+            
+
+        <a tabindex="0" class="btn btn-lg " role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="Password Guidelines" data-bs-content="
+English uppercase letters (A through Z). English lower case letters (a through z). Numbers (0 through 9). Special characters and punctuation symbols (Example: _, -. Not more than 8 characters">    
+                <i class=" bi-info-circle text-blue-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"></i>
+</a>
             <a class=" text-sm text-blue-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
@@ -47,6 +56,11 @@
             <x-primary-button style="background-color:black;" class="ml-4">
                 {{ __('Register') }}
             </x-primary-button>
+
+
         </div>
     </form>
 </x-guest-layout>
+const popover = new bootstrap.Popover('.popover-dismiss', {
+  trigger: 'focus'
+})
